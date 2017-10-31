@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ImAware_Example' do
+  pod 'ImAware', :path => '../'
+
+  target 'ImAware_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
