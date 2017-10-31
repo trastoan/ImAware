@@ -1,0 +1,6 @@
+framework module ImAware {
+  umbrella header "ImAware-umbrella.h"
+
+  export *
+  module * { export * }
+}
