@@ -26,6 +26,8 @@
 		DAAF34711FA8FE89000AA7EF /* ActivityContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF346E1FA8FE89000AA7EF /* ActivityContext.swift */; };
 		DAAF34721FA8FE89000AA7EF /* LocationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF346F1FA8FE89000AA7EF /* LocationContext.swift */; };
 		DAAF34731FA8FE89000AA7EF /* HardwareContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF34701FA8FE89000AA7EF /* HardwareContext.swift */; };
+		DADDF7D51FB0069A005B8F6D /* HardwareObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDF7D41FB0069A005B8F6D /* HardwareObserver.swift */; };
+		DADDF7D71FB00922005B8F6D /* SensorTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADDF7D61FB00922005B8F6D /* SensorTimer.swift */; };
 		DF907BEDC2CE8A89568FDF7DAE7AEDD7 /* ImAware-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DA47451904BF7E732CC52199A9A36780 /* ImAware-dummy.m */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +81,8 @@
 		DAAF346F1FA8FE89000AA7EF /* LocationContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationContext.swift; sourceTree = "<group>"; };
 		DAAF34701FA8FE89000AA7EF /* HardwareContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HardwareContext.swift; sourceTree = "<group>"; };
 		DACD919A2DBF3E882DF368745F29FC37 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DADDF7D41FB0069A005B8F6D /* HardwareObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardwareObserver.swift; sourceTree = "<group>"; };
+		DADDF7D61FB00922005B8F6D /* SensorTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTimer.swift; sourceTree = "<group>"; };
 		EDE85A9A75336BDAF77337DD510D66BF /* ImAware-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ImAware-umbrella.h"; sourceTree = "<group>"; };
 		EF703AEDC3130DADE0DC70A9166FF3E8 /* Pods-ImAware_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ImAware_Example.modulemap"; sourceTree = "<group>"; };
 		F4E57023B74367C7205C2A9932262C2A /* ImAware.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ImAware.modulemap; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 				DAAF34691FA8FE7D000AA7EF /* Event.swift */,
 				DAAF34671FA8FE7D000AA7EF /* LocationFence.swift */,
 				DAAF34681FA8FE7D000AA7EF /* LocationObserver.swift */,
+				DADDF7D41FB0069A005B8F6D /* HardwareObserver.swift */,
 			);
 			path = Observers;
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 				DAAF345F1FA8FE6E000AA7EF /* Error.swift */,
 				DAAF34601FA8FE6E000AA7EF /* Extensions.swift */,
 				DAAF34611FA8FE6E000AA7EF /* RequestHelper.swift */,
+				DADDF7D61FB00922005B8F6D /* SensorTimer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -406,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAAF34651FA8FE6E000AA7EF /* RequestHelper.swift in Sources */,
+				DADDF7D71FB00922005B8F6D /* SensorTimer.swift in Sources */,
 				DAAF346D1FA8FE7D000AA7EF /* Event.swift in Sources */,
 				DF907BEDC2CE8A89568FDF7DAE7AEDD7 /* ImAware-dummy.m in Sources */,
 				DAAF34731FA8FE89000AA7EF /* HardwareContext.swift in Sources */,
@@ -416,6 +423,7 @@
 				DAAF346B1FA8FE7D000AA7EF /* LocationFence.swift in Sources */,
 				DAAF34621FA8FE6E000AA7EF /* AwareLocation.swift in Sources */,
 				DAAF34711FA8FE89000AA7EF /* ActivityContext.swift in Sources */,
+				DADDF7D51FB0069A005B8F6D /* HardwareObserver.swift in Sources */,
 				DAAF34641FA8FE6E000AA7EF /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

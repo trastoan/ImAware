@@ -15,3 +15,7 @@ enum LocationError : Error {
     case authorizationDenied
     case monitoringError
 }
+
+enum AvalabilityError : Error {
+    case notCompatibleIosVersion
+}

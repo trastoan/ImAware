@@ -22,7 +22,7 @@ pod 'ImAware'
 
 ## Author
 
-trastoan, yurisaboiaf@gmail.com
+Yuri Frota , yurisaboiaf@gmail.com
 
 ## License
 
