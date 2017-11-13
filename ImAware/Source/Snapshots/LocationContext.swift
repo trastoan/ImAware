@@ -18,21 +18,12 @@ enum Accuracy {
     case navigation
 }
 
-enum BeaconStatus {
-    case near
-    case notInRange
-    case far
-}
-
 class LocationContext : NSObject, CLLocationManagerDelegate, Context {
     
     internal var contextType : ContextType = .Location
     
     //Location Manager
     private var aware = AwareLocation.shared
-    
-    //Store the beacons Status
-    var beaconsStatus : [(String ,BeaconStatus)]?
     
     /**
      Returns the user CLLocation within decided accuracy
@@ -50,7 +41,7 @@ class LocationContext : NSObject, CLLocationManagerDelegate, Context {
         }
     }
     
-    //Can't return the commercial place, should I use maps api?
+    //Can't return the commercial place, only adresses
     func getNearbyPlaces(completion : @escaping ([CLPlacemark]?) -> ()){
         getUserCurrentLocation(accuracy: .room) { (location, error) in
             let geocoder = CLGeocoder()

@@ -8,31 +8,46 @@
 import Foundation
 
 enum Sensor {
-    case ScreenBrightness
-    case HeadphoneConnected
-    case BatteryLevel
-    case AvailableSpace
-    case PowerModeEnabled
-    case ConnectedAcessories
+    case screenBrightness
+    case headphoneConnected
+    case batteryLevel
+    case availableSpace
+    case powerModeEnabled
+    case connectedAcessories
 }
 
 @available(iOS 10.0, *)
 class HardwareObserver {
-    var timers = [SensorTimer]()
-    let hardwareContext = HardwareContext()
+    private var timers = [SensorTimer]()
+    private let hardwareContext = HardwareContext()
     
     func observeSensor(sensor: Sensor, withInterval interval : TimeInterval, completion : @escaping (Any?, Error?) -> ()) {
-        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensor: sensor, block: { (timer) in
+        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: [sensor], block: { (timer) in
             completion(self.getSensorData(sensor: sensor), nil)
         })
         timer.timer.fire()
         timers.append(timer)
     }
     
+    func observeMultipleSensors(sensors: [Sensor], withInterval interval : TimeInterval, completion : @escaping ([Sensor : Any?], Error?) -> ()) {
+        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: sensors, block: { (timer) in
+            var data = [Sensor : Any?] ()
+            for sensor in sensors {
+                data[sensor] = self.getSensorData(sensor: sensor)
+            }
+            completion(data, nil)
+        })
+        timer.timer.fire()
+        timers.append(timer)
+    }
+    
+    
     func stopObserverForSensors(sensors : [Sensor]) {
         for timer in timers {
-            if sensors.contains(timer.sensor) {
-                timer.timer.invalidate()
+            for sensor in sensors {
+                if timer.sensors.contains(sensor) {
+                    timer.timer.invalidate()
+                }
             }
         }
     }
@@ -46,17 +61,17 @@ class HardwareObserver {
     
     private func getSensorData(sensor : Sensor) -> Any {
         switch sensor {
-        case .ScreenBrightness:
+        case .screenBrightness:
             return hardwareContext.screenBrightness
-        case .HeadphoneConnected:
+        case .headphoneConnected:
             return hardwareContext.headphonetPluggedIn
-        case .BatteryLevel:
+        case .batteryLevel:
             return hardwareContext.batteryLevel ?? 0
-        case .AvailableSpace:
+        case .availableSpace:
             return hardwareContext.availableSpace
-        case .PowerModeEnabled:
+        case .powerModeEnabled:
             return hardwareContext.powerModeEnabled
-        case .ConnectedAcessories:
+        case .connectedAcessories:
             return hardwareContext.connectedAcessories
         }
     }

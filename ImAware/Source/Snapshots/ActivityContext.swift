@@ -24,21 +24,21 @@ protocol ActivityLocation : class {
 
 class ActivityContext : NSObject, Context, ActivityLocation {
     
-    lazy var motionManager = CMMotionManager()
+    private lazy var motionManager = CMMotionManager()
 
     internal var contextType: ContextType = .Activity
 
     //Needs Refactor ******
-    var acData: [[Double]] = []    // accelerometer data
-    var acDataFiltered: [[Double]] = [] //filtered data
-    var speedData: [Double] = [] // speed data
+    private var acData: [[Double]] = []    // accelerometer data
+    private var acDataFiltered: [[Double]] = [] //filtered data
+    private var speedData: [Double] = [] // speed data
     
-    var count: Int = 1
+    private var count: Int = 1
     
-    let acUpdateInterval = 0.02 // sampling rate
-    let cycleInterval = 3.0 // how many sec for a cycle
-    let ALPHA = 0.0314 // the alpha in the filter
-    var lastOfLastCycle:[Double] = []
+    private let acUpdateInterval = 0.02 // sampling rate
+    private let cycleInterval = 3.0 // how many sec for a cycle
+    private let ALPHA = 0.0314 // the alpha in the filter
+    private var lastOfLastCycle:[Double] = []
     
     private var aware = AwareLocation.shared
     
@@ -46,7 +46,7 @@ class ActivityContext : NSObject, Context, ActivityLocation {
         super.init()
     }
     
-    func currentSpeed(speed: Double) {
+    internal func currentSpeed(speed: Double) {
         self.speedData.append(speed)
     }
     
@@ -157,7 +157,7 @@ class ActivityContext : NSObject, Context, ActivityLocation {
         }
     }
     
-    func average(nums : [Double]) -> Double {
+    private func average(nums : [Double]) -> Double {
         var total = 0.0
         for vote in nums {
             total += vote

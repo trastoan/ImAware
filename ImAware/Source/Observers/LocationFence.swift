@@ -28,6 +28,7 @@ class LocationFence : NSObject, NSCoding {
     private var aware = AwareLocation.shared
     
     var radius : Double
+    var payload : [String : Any]?
     var location : CLLocation
     var coordinate : CLLocationCoordinate2D {
         return location.coordinate
@@ -37,7 +38,7 @@ class LocationFence : NSObject, NSCoding {
     
     var type : FenceType
     var identifier : String
-
+    
     var region : CLCircularRegion {
         let region = CLCircularRegion(center: coordinate, radius: radius, identifier: identifier)
         region.notifyOnEntry = (type == .uponEnter || type == .uponEnterAndExit)
@@ -50,12 +51,13 @@ class LocationFence : NSObject, NSCoding {
         return "\(identifier) : latitude : \(self.location.coordinate.latitude) , longitude : \(self.location.coordinate.latitude) "
     }
     
-    init(radius : Double, location : CLLocation, type : FenceType, identifier : String = NSUUID().uuidString, newFence : Bool = true) {
+    init(radius : Double, location : CLLocation, type : FenceType, identifier : String = NSUUID().uuidString, newFence : Bool = true, payload : [String : Any]?) {
         self.radius = radius
         self.location = location
         self.type = type
         self.identifier = identifier
         self.newFence = newFence
+        self.payload = payload
     }
     
     func encode(with aCoder: NSCoder) {
@@ -66,6 +68,9 @@ class LocationFence : NSObject, NSCoding {
         aCoder.encode(self.coordinate.latitude, forKey: "latitude")
         aCoder.encode(self.coordinate.longitude, forKey: "longitude")
         aCoder.encode(self.location.altitude, forKey: "altitude")
+        if let payload = self.payload {
+            aCoder.encode(payload, forKey: "payload")
+        }
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -77,6 +82,7 @@ class LocationFence : NSObject, NSCoding {
         let location = CLLocation(latitude: aDecoder.decodeDouble(forKey: "latitude"), longitude: aDecoder.decodeDouble(forKey: "longitude"))
         let radius = aDecoder.decodeDouble(forKey: "radius")
         
+        guard let payload = aDecoder.decodeObject(forKey: "payload") as? [String : Any] else {return nil}
         
         var type : FenceType
         
@@ -93,7 +99,8 @@ class LocationFence : NSObject, NSCoding {
             radius: radius,
             location: location,
             type: type,
-            identifier : identifier
+            identifier : identifier,
+            payload: payload
         )
         
     }
@@ -192,3 +199,4 @@ class LocationFence : NSObject, NSCoding {
         }
     }
 }
+

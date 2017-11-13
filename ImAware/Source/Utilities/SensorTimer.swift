@@ -10,11 +10,11 @@ import Foundation
 
 @available(iOS 10.0, *)
 class SensorTimer : NSObject {
-    var sensor : Sensor
+    var sensors : [Sensor]
     var timer : Timer
     
-    init(timeInterval : TimeInterval, repeats : Bool, sensor : Sensor, block : @escaping (Timer) -> Swift.Void) {
+    init(timeInterval : TimeInterval, repeats : Bool, sensors : [Sensor], block : @escaping (Timer) -> Swift.Void) {
         self.timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: repeats, block: block)
-        self.sensor = sensor
+        self.sensors = sensors
     }
 }

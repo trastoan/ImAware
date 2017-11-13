@@ -14,23 +14,14 @@ class LocationObserver : NSObject {
     //Manager that deals with the on and off of
     let aware = AwareLocation.shared
     
-    //Stores the user current location
-    var currentLocation : CLLocation?
-    
-    //Store the beacons Status
-    var beaconsStatus : [(String ,BeaconStatus)]?
-    
-    //Group used to deal with delegates
-    var group = DispatchGroup()
-    
     //Initialize CLLocation Manager and request user authorization to location
     override init() {
         super.init()
     }
     
-    func createFence(withLatitude latitude : Double, longitude : Double, radius : Double, identifier : String, fenceType : FenceType) {
+    func createFence(withLatitude latitude : Double, longitude : Double, radius : Double, identifier : String, fenceType : FenceType, payload : [String : Any]) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
-        let fence = LocationFence(radius: radius, location: location, type: fenceType, identifier: identifier, newFence: true)
+        let fence = LocationFence(radius: radius, location: location, type: fenceType, identifier: identifier, newFence: true, payload : payload)
         fence.startMonitoring(fence: fence)
     }
     

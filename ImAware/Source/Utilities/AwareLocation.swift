@@ -38,7 +38,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
     
     weak var fenceDelegate : RegionChange?
     
-    override init() {
+    private override init() {
         super.init()
         AwareLocation.locationManager.delegate = self
         observeLocation = UserDefaults.standard.monitoringBackgroundLocation
@@ -134,7 +134,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
      
      - Parameter accuracy: define the desired accuracy for your location
      */
-    func changeAccuracy(accuracy : Accuracy) {
+    private func changeAccuracy(accuracy : Accuracy) {
         switch accuracy {
         case .country:
             AwareLocation.locationManager.desiredAccuracy = 10000.0
