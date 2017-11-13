@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ImAware'
-  s.version          = '0.2.1'
+  s.version          = '0.3'
   s.summary          = 'A framework that helps the creation of context aware applications, it makes easier to get hardware data and setup location fences.'
 
 # This description is used to generate tags and improve search results.
