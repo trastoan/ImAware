@@ -25,6 +25,10 @@ class LocationObserver : NSObject {
         fence.startMonitoring(fence: fence)
     }
     
+    func stopMonitoringFence(withIdentifier identifier : String) -> Bool{
+        return LocationFence.removeFence(withIdentifier: identifier)
+    }
+    
     func sendLocationDataToServer(withURL url : URL, HTTPMethod method : HTTPMethods, andHeaders headers : [String : String]?) {
         aware.startMonitoringLocation()
         let server = Server(url: url, httpMethod: method, headers : headers)

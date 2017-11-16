@@ -15,6 +15,8 @@
 		99A37EAEA7DE3422F49CFA24BF4957A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		AD7940DBBA246B78D0E3642560F6032B /* Pods-ImAware_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C4631B0316C3A1708AED315E919316A6 /* Pods-ImAware_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BBDFB59D084BCB509FE2B2773614F86A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		DA7B40331FB9E8CD0053C7DD /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7B40321FB9E8CD0053C7DD /* Snapshot.swift */; };
+		DA7B40371FB9EA380053C7DD /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7B40361FB9EA380053C7DD /* Observer.swift */; };
 		DAAF34621FA8FE6E000AA7EF /* AwareLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF345E1FA8FE6E000AA7EF /* AwareLocation.swift */; };
 		DAAF34631FA8FE6E000AA7EF /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF345F1FA8FE6E000AA7EF /* Error.swift */; };
 		DAAF34641FA8FE6E000AA7EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAF34601FA8FE6E000AA7EF /* Extensions.swift */; };
@@ -69,6 +71,8 @@
 		CF69B5FB6D48A30F8E040C002EA2B7CB /* Pods_ImAware_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImAware_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D932996D922DCFA13C3CD640A156CB41 /* Pods-ImAware_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ImAware_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		DA47451904BF7E732CC52199A9A36780 /* ImAware-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ImAware-dummy.m"; sourceTree = "<group>"; };
+		DA7B40321FB9E8CD0053C7DD /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
+		DA7B40361FB9EA380053C7DD /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		DAAF345E1FA8FE6E000AA7EF /* AwareLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwareLocation.swift; sourceTree = "<group>"; };
 		DAAF345F1FA8FE6E000AA7EF /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		DAAF34601FA8FE6E000AA7EF /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 				DAAF34671FA8FE7D000AA7EF /* LocationFence.swift */,
 				DAAF34681FA8FE7D000AA7EF /* LocationObserver.swift */,
 				DADDF7D41FB0069A005B8F6D /* HardwareObserver.swift */,
+				DA7B40361FB9EA380053C7DD /* Observer.swift */,
 			);
 			path = Observers;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				DAAF346E1FA8FE89000AA7EF /* ActivityContext.swift */,
 				DAAF34701FA8FE89000AA7EF /* HardwareContext.swift */,
 				DAAF346F1FA8FE89000AA7EF /* LocationContext.swift */,
+				DA7B40321FB9E8CD0053C7DD /* Snapshot.swift */,
 			);
 			path = Snapshots;
 			sourceTree = "<group>";
@@ -412,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAAF34651FA8FE6E000AA7EF /* RequestHelper.swift in Sources */,
+				DA7B40371FB9EA380053C7DD /* Observer.swift in Sources */,
 				DADDF7D71FB00922005B8F6D /* SensorTimer.swift in Sources */,
 				DAAF346D1FA8FE7D000AA7EF /* Event.swift in Sources */,
 				DF907BEDC2CE8A89568FDF7DAE7AEDD7 /* ImAware-dummy.m in Sources */,
@@ -420,6 +427,7 @@
 				DAAF34631FA8FE6E000AA7EF /* Error.swift in Sources */,
 				DAAF34721FA8FE89000AA7EF /* LocationContext.swift in Sources */,
 				DAAF346A1FA8FE7D000AA7EF /* Context.swift in Sources */,
+				DA7B40331FB9E8CD0053C7DD /* Snapshot.swift in Sources */,
 				DAAF346B1FA8FE7D000AA7EF /* LocationFence.swift in Sources */,
 				DAAF34621FA8FE6E000AA7EF /* AwareLocation.swift in Sources */,
 				DAAF34711FA8FE89000AA7EF /* ActivityContext.swift in Sources */,
