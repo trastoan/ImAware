@@ -66,6 +66,24 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    func pauseMonitoringFences() {
+        if AwareLocation.locationManager.monitoredRegions.count > 0 {
+            guard let fences = UserDefaults.standard.geoFences else { return }
+            let _ = fences.map{AwareLocation.locationManager.stopMonitoring(for: $0.region)}
+        }
+    }
+    
+    func restartMonitoringFences() {
+        if AwareLocation.locationManager.monitoredRegions.count < 0 {
+            if let location = AwareLocation.locationManager.location {
+                LocationFence.updateMonitoredFences(userLocation: location)
+            }else {
+                guard let fences = UserDefaults.standard.geoFences else { return }
+                let _ = fences.map{AwareLocation.locationManager.startMonitoring(for: $0.region)}
+            }
+        }
+    }
+    
     func sendLocationToServer(withLocation location: CLLocation) {
         guard let server = serverInfo else { return }
         guard let data = location.toJSONData() else { return }
