@@ -6,7 +6,6 @@
 //  Code based on KWC-team 2015
 //  Copyright © 2017 Taskr. All rights reserved.
 //
-
 import UIKit
 import CoreMotion
 import CoreLocation
@@ -18,16 +17,16 @@ enum ActivityType : String {
     case standingBy = "Standing By"
 }
 
-protocol ActivityLocation : class {
-    func currentSpeed(speed : Double)
+protocol ActivityLocation: class {
+    func currentSpeed(speed: Double)
 }
 
-class ActivityContext : NSObject, Context, ActivityLocation {
+class ActivityContext: NSObject, Context, ActivityLocation {
     
     private lazy var motionManager = CMMotionManager()
-
-    internal var contextType: ContextType = .Activity
-
+    
+    internal var contextType: ContextType = .activity
+    
     //Needs Refactor ******
     private var acData: [[Double]] = []    // accelerometer data
     private var acDataFiltered: [[Double]] = [] //filtered data
@@ -38,7 +37,7 @@ class ActivityContext : NSObject, Context, ActivityLocation {
     private let acUpdateInterval = 0.02 // sampling rate
     private let cycleInterval = 3.0 // how many sec for a cycle
     private let ALPHA = 0.0314 // the alpha in the filter
-    private var lastOfLastCycle:[Double] = []
+    private var lastOfLastCycle: [Double] = []
     
     private var aware = AwareLocation.shared
     
@@ -51,7 +50,7 @@ class ActivityContext : NSObject, Context, ActivityLocation {
     }
     
     //Needs Refactor ******
-    func getCurrentUserActivity(completion : @escaping (ActivityType) -> ()) {
+    func getCurrentUserActivity(completion: @escaping (ActivityType) -> Void) {
         aware.beginLocationUpdate()
         let countMax = self.cycleInterval / self.acUpdateInterval
         
@@ -59,7 +58,7 @@ class ActivityContext : NSObject, Context, ActivityLocation {
         
         if motionManager.isAccelerometerAvailable {
             let queue = OperationQueue.main
-            motionManager.startAccelerometerUpdates(to: queue, withHandler: { (data, error) in
+            motionManager.startAccelerometerUpdates(to: queue, withHandler: { (data, _) in
                 guard let data = data else {
                     return
                 }
@@ -68,12 +67,12 @@ class ActivityContext : NSObject, Context, ActivityLocation {
                 self.acData.append(thisAcData)
                 
                 //Filter Data
-                var thisAcDataFiltered : [Double] = []
-                var lastAcDataFiltered : [Double] = []
+                var thisAcDataFiltered: [Double] = []
+                var lastAcDataFiltered: [Double] = []
                 
                 if self.acDataFiltered.count == 0 {
-                    lastAcDataFiltered = self.lastOfLastCycle.count != 0 ? self.lastOfLastCycle : [0,0,0]
-                }else { //Mid Cycle
+                    lastAcDataFiltered = self.lastOfLastCycle.count != 0 ? self.lastOfLastCycle : [0, 0, 0]
+                } else { //Mid Cycle
                     lastAcDataFiltered = self.acDataFiltered[self.acDataFiltered.endIndex - 1]
                 }
                 
@@ -90,9 +89,9 @@ class ActivityContext : NSObject, Context, ActivityLocation {
                     self.lastOfLastCycle = self.acDataFiltered[self.acDataFiltered.endIndex - 1]
                     
                     //Tresshold Calculations
-                    var acDataFilteredX : [Double] = []
-                    var acDataFilteredY : [Double] = []
-                    var acDataFilteredZ : [Double] = []
+                    var acDataFilteredX: [Double] = []
+                    var acDataFilteredY: [Double] = []
+                    var acDataFilteredZ: [Double] = []
                     
                     for i in self.acDataFiltered {
                         acDataFilteredX.append(i[0])
@@ -106,25 +105,25 @@ class ActivityContext : NSObject, Context, ActivityLocation {
                     
                     let whichAxis = xyz.index(of: xyz.max() ?? 0)
                     
-                    //Walking or Running 
+                    //Walking or Running
                     var overTresholdCount = 0.0
                     
                     //Calculate Step Rate
                     var stepRateCount = 0
                     
-                    var lastData : [Double] = []
+                    var lastData: [Double] = []
                     
                     //Check how many points are greater than the treshold and whats the step rate
                     for i in self.acData {
                         let tresholdStep = treshold * 0.6
                         if lastData.count != 0 {
-                            if (abs(lastData[whichAxis!]) < tresholdStep && abs(i[whichAxis!]) >= tresholdStep) {
-                                stepRateCount = stepRateCount + 1
+                            if abs(lastData[whichAxis!]) < tresholdStep && abs(i[whichAxis!]) >= tresholdStep {
+                                stepRateCount += 1
                             }
                         }
                         //Count over treshold data
                         if abs(i[whichAxis!]) >= treshold {
-                            overTresholdCount = overTresholdCount + 1.0
+                            overTresholdCount += 1.0
                         }
                         
                         lastData = i
@@ -132,10 +131,10 @@ class ActivityContext : NSObject, Context, ActivityLocation {
                     
                     if overTresholdCount >= Double(self.acData.count) * 0.1 {
                         completion(.running)
-                    }else {
+                    } else {
                         if stepRateCount <= 2 {
                             completion(.standingBy)
-                        }else {
+                        } else {
                             completion(.walking)
                         }
                     }
@@ -149,15 +148,15 @@ class ActivityContext : NSObject, Context, ActivityLocation {
                     self.aware.stopUpdatingLocation()
                     self.aware.speedDelegate = nil
                     self.motionManager.stopAccelerometerUpdates()
-
-                }else {
-                    self.count = self.count + 1
+                    
+                } else {
+                    self.count += 1
                 }
             })
         }
     }
     
-    private func average(nums : [Double]) -> Double {
+    private func average(nums: [Double]) -> Double {
         var total = 0.0
         for vote in nums {
             total += vote
@@ -165,3 +164,4 @@ class ActivityContext : NSObject, Context, ActivityLocation {
         return total/Double(nums.count)
     }
 }
+

@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum HTTPMethods : String {
-    case GET = "GET"
-    case POST = "POST"
+enum HTTPMethods: String {
+    case GET
+    case POST
 }
 
 struct Server {
-    var url : URL
-    var httpMethod : HTTPMethods
-    var headers : [String : String]?
+    var url: URL
+    var httpMethod: HTTPMethods
+    var headers: [String: String]?
 }

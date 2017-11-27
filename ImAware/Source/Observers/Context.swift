@@ -9,11 +9,11 @@
 import Foundation
 
 enum ContextType {
-    case Hardware
-    case Location
-    case Activity
+    case hardware
+    case location
+    case activity
 }
 
-protocol Context{
-   var contextType : ContextType {get set}
+protocol Context {
+    var contextType: ContextType {get set}
 }

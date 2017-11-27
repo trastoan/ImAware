@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LocationError : Error {
+enum LocationError: Error {
     case missingAuthorization
     case serviceNotAvailable
     case timeout

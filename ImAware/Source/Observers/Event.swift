@@ -9,6 +9,5 @@
 import Foundation
 
 class Event {
-    var contexts : [Context] = []
-    
+    var contexts: [Context] = []
 }

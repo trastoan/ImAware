@@ -9,23 +9,22 @@
 import Foundation
 import CoreLocation
 
-extension CLLocationManager{
-    func stopAllLocationUpdates(){
+extension CLLocationManager {
+    func stopAllLocationUpdates() {
         self.stopUpdatingHeading()
         self.stopMonitoringSignificantLocationChanges()
         self.disallowDeferredLocationUpdates()
     }
     
     func stopMonitoringAllRegions() {
-        self.monitoredRegions.forEach{self.stopMonitoring(for: $0)}
+        self.monitoredRegions.forEach {self.stopMonitoring(for: $0)}
     }
 }
-
 
 import CoreLocation
 
 extension UserDefaults {
-    var geoFences : [LocationFence]? {
+    var geoFences: [LocationFence]? {
         get {
             if let data = object(forKey: PreferenceKey.fence) as? Data {
                 return NSKeyedUnarchiver.unarchiveObject(with: data) as? [LocationFence]
@@ -33,13 +32,13 @@ extension UserDefaults {
             return nil
         }
         set {
-            if let _ = newValue {
+            if newValue != nil {
                 setValue(NSKeyedArchiver.archivedData(withRootObject: newValue!), forKeyPath: PreferenceKey.fence)
             }
         }
     }
     
-    var monitoringBackgroundLocation : Bool {
+    var monitoringBackgroundLocation: Bool {
         get {
             return bool(forKey: PreferenceKey.monitoring)
         }
@@ -53,16 +52,16 @@ extension UserDefaults {
 extension CLLocation {
     func toJSONData() -> Data? {
         let stamp = self.timestamp.timeIntervalSince1970
-        let locationData = ["location" :
+        let locationData = ["location":
             ["speed": self.speed,
-             "latitude" : self.coordinate.latitude,
-             "longitude" : self.coordinate.longitude,
-             "altitude" : self.altitude,
-             "horizontalAccuracy" : self.horizontalAccuracy,
-             "verticalAccuracy" : self.verticalAccuracy,
-             "course" : self.course,
-             "timeStamp" : stamp,
-             "floor" : self.floor?.level ?? 0]]
+             "latitude": self.coordinate.latitude,
+             "longitude": self.coordinate.longitude,
+             "altitude": self.altitude,
+             "horizontalAccuracy": self.horizontalAccuracy,
+             "verticalAccuracy": self.verticalAccuracy,
+             "course": self.course,
+             "timeStamp": stamp,
+             "floor": self.floor?.level ?? 0]]
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: locationData, options: .prettyPrinted)
@@ -72,4 +71,3 @@ extension CLLocation {
         }
     }
 }
-

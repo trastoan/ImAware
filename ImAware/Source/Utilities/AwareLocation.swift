@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import UserNotifications
 
-protocol RegionChange : class {
+protocol RegionChange: class {
     func fenceStatusDidChange(forFence fence: LocationFence)
 }
 
@@ -23,20 +23,20 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
     public static let locationManager = CLLocationManager()
     static let shared = AwareLocation()
     
-    private var frequency : Frequency?
-    private var requestError : LocationError?
-    private var currentLocation : CLLocation?
+    private var frequency: Frequency?
+    private var requestError: LocationError?
+    private var currentLocation: CLLocation?
     private var group = DispatchGroup()
     private var observeLocation = false
-    public var serverInfo : Server?
+    public var serverInfo: Server?
     
-    weak var speedDelegate : ActivityLocation? {
-        didSet{
+    weak var speedDelegate: ActivityLocation? {
+        didSet {
             observeLocation = true
         }
     }
     
-    weak var fenceDelegate : RegionChange?
+    weak var fenceDelegate: RegionChange?
     
     private override init() {
         super.init()
@@ -69,7 +69,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
     func pauseMonitoringFences() {
         if AwareLocation.locationManager.monitoredRegions.count > 0 {
             guard let fences = UserDefaults.standard.geoFences else { return }
-            let _ = fences.map{AwareLocation.locationManager.stopMonitoring(for: $0.region)}
+            _ = fences.map {AwareLocation.locationManager.stopMonitoring(for: $0.region)}
         }
     }
     
@@ -77,9 +77,9 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         if AwareLocation.locationManager.monitoredRegions.count < 0 {
             if let location = AwareLocation.locationManager.location {
                 LocationFence.updateMonitoredFences(userLocation: location)
-            }else {
+            } else {
                 guard let fences = UserDefaults.standard.geoFences else { return }
-                let _ = fences.map{AwareLocation.locationManager.startMonitoring(for: $0.region)}
+                _ = fences.map {AwareLocation.locationManager.startMonitoring(for: $0.region)}
             }
         }
     }
@@ -95,18 +95,16 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         
         let session = URLSession.shared
         
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { (_, _, _) in
             
         }
         task.resume()
     }
     
-    
-    
     func handleFence(forRegion region: CLRegion) {
         let identifier = region.identifier
         guard let fences = UserDefaults.standard.geoFences else { return }
-        let fenceIndex = fences.index{ $0.identifier == identifier }
+        let fenceIndex = fences.index { $0.identifier == identifier }
         
         guard let index = fenceIndex else {return}
         if let fence = fences[index] as LocationFence? {
@@ -114,9 +112,8 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    
-    func requestUserLocation(accuracy : Accuracy, completion : @escaping (CLLocation?, Error?) -> ()) {
-        if !checkAuthorization(){
+    func requestUserLocation(accuracy: Accuracy, completion: @escaping (CLLocation?, Error?) -> Void) {
+        if !checkAuthorization() {
             DispatchQueue.main.async {
                 completion(nil, LocationError.serviceNotAvailable)
                 return
@@ -152,7 +149,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
      
      - Parameter accuracy: define the desired accuracy for your location
      */
-    private func changeAccuracy(accuracy : Accuracy) {
+    private func changeAccuracy(accuracy: Accuracy) {
         switch accuracy {
         case .country:
             AwareLocation.locationManager.desiredAccuracy = 10000.0
@@ -175,7 +172,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         AwareLocation.locationManager.startMonitoring(for: region)
     }
     
-    func stopMonitoringFence(for region : CLRegion) {
+    func stopMonitoringFence(for region: CLRegion) {
         AwareLocation.locationManager.stopMonitoring(for: region)
     }
     
@@ -184,7 +181,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
     }
 }
 
-// MARK : Location Delegates
+// MARK: Location Delegates
 
 extension AwareLocation {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -225,3 +222,4 @@ extension AwareLocation {
         group.leave()
     }
 }
+

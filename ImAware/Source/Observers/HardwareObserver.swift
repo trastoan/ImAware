@@ -21,17 +21,17 @@ class HardwareObserver {
     private var timers = [SensorTimer]()
     private let hardwareContext = HardwareContext()
     
-    func observeSensor(sensor: Sensor, withInterval interval : TimeInterval, completion : @escaping (Any?, Error?) -> ()) {
-        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: [sensor], block: { (timer) in
+    func observeSensor(sensor: Sensor, withInterval interval: TimeInterval, completion: @escaping (Any?, Error?) -> Void) {
+        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: [sensor], block: { (_) in
             completion(self.getSensorData(sensor: sensor), nil)
         })
         timer.timer.fire()
         timers.append(timer)
     }
     
-    func observeMultipleSensors(sensors: [Sensor], withInterval interval : TimeInterval, completion : @escaping ([Sensor : Any?], Error?) -> ()) {
-        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: sensors, block: { (timer) in
-            var data = [Sensor : Any?] ()
+    func observeMultipleSensors(sensors: [Sensor], withInterval interval: TimeInterval, completion: @escaping ([Sensor: Any?], Error?) -> Void) {
+        let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: sensors, block: { (_) in
+            var data = [Sensor: Any?] ()
             for sensor in sensors {
                 data[sensor] = self.getSensorData(sensor: sensor)
             }
@@ -41,8 +41,7 @@ class HardwareObserver {
         timers.append(timer)
     }
     
-    
-    func stopObserverForSensors(sensors : [Sensor]) {
+    func stopObserverForSensors(sensors: [Sensor]) {
         for timer in timers {
             for sensor in sensors {
                 if timer.sensors.contains(sensor) {
@@ -58,8 +57,7 @@ class HardwareObserver {
         }
     }
     
-    
-    private func getSensorData(sensor : Sensor) -> Any {
+    private func getSensorData(sensor: Sensor) -> Any {
         switch sensor {
         case .screenBrightness:
             return hardwareContext.screenBrightness
@@ -76,6 +74,3 @@ class HardwareObserver {
         }
     }
 }
-
-
-

@@ -18,9 +18,9 @@ enum Accuracy {
     case navigation
 }
 
-class LocationContext : NSObject, CLLocationManagerDelegate, Context {
+class LocationContext: NSObject, CLLocationManagerDelegate, Context {
     
-    internal var contextType : ContextType = .Location
+    internal var contextType: ContextType = .location
     
     //Location Manager
     private var aware = AwareLocation.shared
@@ -33,7 +33,7 @@ class LocationContext : NSObject, CLLocationManagerDelegate, Context {
      - Returns : A CLLocation with the last user location
      */
     
-    func getUserCurrentLocation(accuracy : Accuracy, completion : @escaping (CLLocation?, Error?) -> ()) {
+    func getUserCurrentLocation(accuracy: Accuracy, completion: @escaping (CLLocation?, Error?) -> Void) {
         aware.requestUserLocation(accuracy: accuracy) { (location, error) in
             DispatchQueue.main.async {
                 completion(location, error)
@@ -42,7 +42,7 @@ class LocationContext : NSObject, CLLocationManagerDelegate, Context {
     }
     
     //Can't return the commercial place, only adresses
-    func getNearbyPlaces(completion : @escaping ([CLPlacemark]?) -> ()){
+    func getNearbyPlaces(completion: @escaping ([CLPlacemark]?) -> Void) {
         getUserCurrentLocation(accuracy: .room) { (location, error) in
             let geocoder = CLGeocoder()
             if let location = location {
@@ -52,10 +52,8 @@ class LocationContext : NSObject, CLLocationManagerDelegate, Context {
                     } else {
                         var result = [CLPlacemark]()
                         if let places = places {
-                            for place in places {
-                                if place.name != nil {
-                                    result.append(place)
-                                }
+                            for place in places where place.name != nil {
+                                result.append(place)
                             }
                         }
                         completion(result)
@@ -66,7 +64,8 @@ class LocationContext : NSObject, CLLocationManagerDelegate, Context {
             }
         }
     }
-
+    
     //Beacons will not be available on first version
-
+    
 }
+

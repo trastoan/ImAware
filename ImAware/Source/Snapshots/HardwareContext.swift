@@ -11,24 +11,24 @@ import UIKit
 import ExternalAccessory
 import AVFoundation
 
-enum State : String{
+enum State: String {
     case on = "On"
     case off = "Off"
 }
 
-class HardwareContext : Context {
+class HardwareContext: Context {
     
-    internal var contextType : ContextType = .Hardware
+    internal var contextType: ContextType = .hardware
     
     //Getting Screen Brightness
-    var screenBrightness : Float {
+    var screenBrightness: Float {
         get {
             return Float(UIScreen.main.brightness * 100)
         }
     }
     
     //Getting Battery level in percentage
-    var batteryLevel : Float? {
+    var batteryLevel: Float? {
         get {
             let device = UIDevice.current
             device.isBatteryMonitoringEnabled = true
@@ -38,7 +38,7 @@ class HardwareContext : Context {
     }
     
     //Getting available disk space in percentage
-    var availableSpace : Float {
+    var availableSpace: Float {
         get {
             do {
                 let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -53,7 +53,7 @@ class HardwareContext : Context {
     }
     
     //Getting PowerMode Status
-    var powerModeEnabled : Bool {
+    var powerModeEnabled: Bool {
         get {
             if #available(iOS 9.0, *) {
                 return ProcessInfo.processInfo.isLowPowerModeEnabled
@@ -66,14 +66,12 @@ class HardwareContext : Context {
     
     //Getting Headphone status
     //Credits to Antonio E., this code is coming from this SO answer : http://stackoverflow.com/a/21382748/588967
-    var headphonetPluggedIn : Bool {
+    var headphonetPluggedIn: Bool {
         get {
             let route = AVAudioSession.sharedInstance().currentRoute
             
-            for desc in route.outputs {
-                if desc.portType == AVAudioSessionPortHeadphones {
-                    return true
-                }
+            for desc in route.outputs where desc.portType == AVAudioSessionPortHeadphones {
+                return true
             }
             
             return false
@@ -81,9 +79,9 @@ class HardwareContext : Context {
     }
     
     //Getting connected Acessories list
-    var connectedAcessories : [String] {
+    var connectedAcessories: [String] {
         get {
-            var acessories : [String] = []
+            var acessories: [String] = []
             
             for access in EAAccessoryManager.shared().connectedAccessories {
                 acessories.append(access.name)
@@ -93,3 +91,4 @@ class HardwareContext : Context {
         }
     }
 }
+

@@ -18,28 +18,28 @@ struct PreferenceKey {
     static let monitoring = "Monitoring Location"
 }
 
-enum FenceType : String {
+enum FenceType: String {
     case uponEnter = "Upon Enter"
     case uponExit = "Upon Exit"
     case uponEnterAndExit = "Upon enter and exit"
 }
 
-class LocationFence : NSObject, NSCoding {
+class LocationFence: NSObject, NSCoding {
     private var aware = AwareLocation.shared
     
-    var radius : Double
-    var payload : [String : Any]?
-    var location : CLLocation
-    var coordinate : CLLocationCoordinate2D {
+    var radius: Double
+    var payload: [String: Any]?
+    var location: CLLocation
+    var coordinate: CLLocationCoordinate2D {
         return location.coordinate
     }
     
-    var newFence : Bool
+    var newFence: Bool
     
-    var type : FenceType
-    var identifier : String
+    var type: FenceType
+    var identifier: String
     
-    var region : CLCircularRegion {
+    var region: CLCircularRegion {
         let region = CLCircularRegion(center: coordinate, radius: radius, identifier: identifier)
         region.notifyOnEntry = (type == .uponEnter || type == .uponEnterAndExit)
         region.notifyOnExit = (type == .uponExit  || type == .uponEnterAndExit)
@@ -51,7 +51,7 @@ class LocationFence : NSObject, NSCoding {
         return "\(identifier) : latitude : \(self.location.coordinate.latitude) , longitude : \(self.location.coordinate.latitude) "
     }
     
-    init(radius : Double, location : CLLocation, type : FenceType, identifier : String = NSUUID().uuidString, newFence : Bool = true, payload : [String : Any]?) {
+    init(radius: Double, location: CLLocation, type: FenceType, identifier: String = NSUUID().uuidString, newFence: Bool = true, payload: [String: Any]?) {
         self.radius = radius
         self.location = location
         self.type = type
@@ -78,13 +78,12 @@ class LocationFence : NSObject, NSCoding {
             let identifier = aDecoder.decodeObject(forKey: "identifier") as? String
             else {return nil}
         
-        
         let location = CLLocation(latitude: aDecoder.decodeDouble(forKey: "latitude"), longitude: aDecoder.decodeDouble(forKey: "longitude"))
         let radius = aDecoder.decodeDouble(forKey: "radius")
         
-        guard let payload = aDecoder.decodeObject(forKey: "payload") as? [String : Any] else {return nil}
+        guard let payload = aDecoder.decodeObject(forKey: "payload") as? [String: Any] else {return nil}
         
-        var type : FenceType
+        var type: FenceType
         
         switch typeValue {
         case FenceType.uponEnter.rawValue:
@@ -99,7 +98,7 @@ class LocationFence : NSObject, NSCoding {
             radius: radius,
             location: location,
             type: type,
-            identifier : identifier,
+            identifier: identifier,
             payload: payload
         )
         
@@ -107,7 +106,7 @@ class LocationFence : NSObject, NSCoding {
     
     //Fence monitoring
     
-    func startMonitoring(fence : LocationFence) {
+    func startMonitoring(fence: LocationFence) {
         if !(CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self)) {
             print("Not available on this device")
             return
@@ -118,10 +117,10 @@ class LocationFence : NSObject, NSCoding {
         }
         
         if self.newFence {
-            if var fences = UserDefaults.standard.geoFences{
+            if var fences = UserDefaults.standard.geoFences {
                 fences.append(self)
                 UserDefaults.standard.geoFences = fences
-            }else {
+            } else {
                 UserDefaults.standard.geoFences = [self]
             }
         }
@@ -130,7 +129,7 @@ class LocationFence : NSObject, NSCoding {
         aware.startMonitoringFence(for: region)
     }
     
-    func stopMonitoring(fence : LocationFence) {
+    func stopMonitoring(fence: LocationFence) {
         for region in aware.getMonitoredRegions() {
             guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == fence.identifier
                 else { continue }
@@ -138,28 +137,26 @@ class LocationFence : NSObject, NSCoding {
         }
     }
     
-    static func removeFence(withIdentifier identifier : String) -> Bool {
+    static func removeFence(withIdentifier identifier: String) -> Bool {
         if var fences = UserDefaults.standard.geoFences {
-            for index in 0 ..< fences.count {
-                if fences[index].identifier == identifier {
-                    let fence = fences[index]
-                    fence.stopMonitoring(fence: fence)
-                    fences.remove(at: index)
-                    UserDefaults.standard.geoFences = fences
-                    return true
-                }
+            for index in 0 ..< fences.count where fences[index].identifier == identifier {
+                let fence = fences[index]
+                fence.stopMonitoring(fence: fence)
+                fences.remove(at: index)
+                UserDefaults.standard.geoFences = fences
+                return true
             }
         }
         return false
     }
     
-    static func nearbyFences(inFences fences: [LocationFence], proximity : CLLocationDistance, fromLocation location : CLLocation) -> [LocationFence]{
+    static func nearbyFences(inFences fences: [LocationFence], proximity: CLLocationDistance, fromLocation location: CLLocation) -> [LocationFence] {
         var i = 1.0
         var nearbyFences = [LocationFence]()
         if fences.count >= 19 {
-            nearbyFences = fences.filter{$0.location.distance(from: location) < proximity}
+            nearbyFences = fences.filter {$0.location.distance(from: location) < proximity}
             while nearbyFences.count >= 19 {
-                nearbyFences = fences.filter{$0.location.distance(from: location) < proximity - (proximity/1000) * i}
+                nearbyFences = fences.filter {$0.location.distance(from: location) < proximity - (proximity/1000) * i}
                 i += 3
             }
             return nearbyFences
@@ -167,12 +164,10 @@ class LocationFence : NSObject, NSCoding {
         return fences
     }
     
-    static func containsRegion(region : CLRegion, inFences fences: [LocationFence]) -> Bool {
+    static func containsRegion(region: CLRegion, inFences fences: [LocationFence]) -> Bool {
         var contains = false
-        for fence in fences {
-            if fence.region.identifier == region.identifier {
-                contains = true
-            }
+        for fence in fences where fence.region.identifier == region.identifier {
+            contains = true
         }
         return contains
     }
@@ -184,8 +179,8 @@ class LocationFence : NSObject, NSCoding {
         return [LocationFence]()
     }
     
-    static func updateMonitoredFences(userLocation : CLLocation){
-        if let fences = UserDefaults.standard.geoFences{
+    static func updateMonitoredFences(userLocation: CLLocation) {
+        if let fences = UserDefaults.standard.geoFences {
             if fences.count > 19 {
                 let nearbyFences = LocationFence.nearbyFences(inFences: fences, proximity: 50000, fromLocation: userLocation)
                 let aware = AwareLocation.shared
@@ -199,4 +194,3 @@ class LocationFence : NSObject, NSCoding {
         }
     }
 }
-
