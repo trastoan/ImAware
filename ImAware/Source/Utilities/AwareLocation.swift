@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import UserNotifications
 
-protocol RegionChange: class {
+public protocol RegionChange: class {
     func fenceStatusDidChange(forFence fence: LocationFence)
 }
 
@@ -19,7 +19,7 @@ enum Frequency {
     case observe
 }
 
-class AwareLocation: NSObject, CLLocationManagerDelegate {
+open class AwareLocation: NSObject, CLLocationManagerDelegate {
     public static let locationManager = CLLocationManager()
     static let shared = AwareLocation()
     
@@ -36,7 +36,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    weak var fenceDelegate: RegionChange?
+    weak public var fenceDelegate: RegionChange?
     
     private override init() {
         super.init()
@@ -184,7 +184,7 @@ class AwareLocation: NSObject, CLLocationManagerDelegate {
 // MARK: Location Delegates
 
 extension AwareLocation {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         if let location = locations.last {
             if observeLocation {
@@ -203,21 +203,21 @@ extension AwareLocation {
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    public func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         handleFence(forRegion: region)
     }
     
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+    public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         handleFence(forRegion: region)
     }
     
     //Error Handling delegates
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         requestError = .serviceNotAvailable
         group.leave()
     }
     
-    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    public func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         requestError = .monitoringError
         group.leave()
     }
