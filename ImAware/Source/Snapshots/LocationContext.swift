@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-enum Accuracy {
+public enum Accuracy {
     case country
     case city
     case neighborhood
@@ -18,7 +18,7 @@ enum Accuracy {
     case navigation
 }
 
-class LocationContext: NSObject, CLLocationManagerDelegate, Context {
+open class LocationContext: NSObject, CLLocationManagerDelegate, Context {
     
     internal var contextType: ContextType = .location
     
@@ -33,7 +33,7 @@ class LocationContext: NSObject, CLLocationManagerDelegate, Context {
      - Returns : A CLLocation with the last user location
      */
     
-    func getUserCurrentLocation(accuracy: Accuracy, completion: @escaping (CLLocation?, Error?) -> Void) {
+    public func getUserCurrentLocation(accuracy: Accuracy, completion: @escaping (CLLocation?, Error?) -> Void) {
         aware.requestUserLocation(accuracy: accuracy) { (location, error) in
             DispatchQueue.main.async {
                 completion(location, error)
@@ -42,7 +42,7 @@ class LocationContext: NSObject, CLLocationManagerDelegate, Context {
     }
     
     //Can't return the commercial place, only adresses
-    func getNearbyPlaces(completion: @escaping ([CLPlacemark]?) -> Void) {
+    public func getNearbyPlaces(completion: @escaping ([CLPlacemark]?) -> Void) {
         getUserCurrentLocation(accuracy: .room) { (location, error) in
             let geocoder = CLGeocoder()
             if let location = location {

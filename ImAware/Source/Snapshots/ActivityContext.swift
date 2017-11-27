@@ -10,7 +10,7 @@ import UIKit
 import CoreMotion
 import CoreLocation
 
-enum ActivityType : String {
+public enum ActivityType : String {
     case running = "Running"
     case walking = "Walking"
     case driving = "Driving"
@@ -21,7 +21,7 @@ protocol ActivityLocation: class {
     func currentSpeed(speed: Double)
 }
 
-class ActivityContext: NSObject, Context, ActivityLocation {
+open class ActivityContext: NSObject, Context, ActivityLocation {
     
     private lazy var motionManager = CMMotionManager()
     
@@ -50,7 +50,7 @@ class ActivityContext: NSObject, Context, ActivityLocation {
     }
     
     //Needs Refactor ******
-    func getCurrentUserActivity(completion: @escaping (ActivityType) -> Void) {
+    public func getCurrentUserActivity(completion: @escaping (ActivityType) -> Void) {
         aware.beginLocationUpdate()
         let countMax = self.cycleInterval / self.acUpdateInterval
         

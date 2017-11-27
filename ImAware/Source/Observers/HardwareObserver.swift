@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Sensor {
+public enum Sensor {
     case screenBrightness
     case headphoneConnected
     case batteryLevel
@@ -17,11 +17,11 @@ enum Sensor {
 }
 
 @available(iOS 10.0, *)
-class HardwareObserver {
+open class HardwareObserver {
     private var timers = [SensorTimer]()
     private let hardwareContext = HardwareContext()
     
-    func observeSensor(sensor: Sensor, withInterval interval: TimeInterval, completion: @escaping (Any?, Error?) -> Void) {
+    public func observeSensor(sensor: Sensor, withInterval interval: TimeInterval, completion: @escaping (Any?, Error?) -> Void) {
         let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: [sensor], block: { (_) in
             completion(self.getSensorData(sensor: sensor), nil)
         })
@@ -29,7 +29,7 @@ class HardwareObserver {
         timers.append(timer)
     }
     
-    func observeMultipleSensors(sensors: [Sensor], withInterval interval: TimeInterval, completion: @escaping ([Sensor: Any?], Error?) -> Void) {
+    public func observeMultipleSensors(sensors: [Sensor], withInterval interval: TimeInterval, completion: @escaping ([Sensor: Any?], Error?) -> Void) {
         let timer =  SensorTimer(timeInterval: interval, repeats: true, sensors: sensors, block: { (_) in
             var data = [Sensor: Any?] ()
             for sensor in sensors {
@@ -41,7 +41,7 @@ class HardwareObserver {
         timers.append(timer)
     }
     
-    func stopObserverForSensors(sensors: [Sensor]) {
+    public func stopObserverForSensors(sensors: [Sensor]) {
         for timer in timers {
             for sensor in sensors {
                 if timer.sensors.contains(sensor) {
@@ -51,7 +51,7 @@ class HardwareObserver {
         }
     }
     
-    func stopAllObservers() {
+    public func stopAllObservers() {
         for timer in timers {
             timer.timer.invalidate()
         }

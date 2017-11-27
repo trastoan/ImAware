@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Snapshot {
+public struct Snapshot {
     var hardware = HardwareContext()
     var location = LocationContext()
     var activity = ActivityContext()

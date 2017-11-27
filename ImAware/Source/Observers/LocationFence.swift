@@ -18,13 +18,13 @@ struct PreferenceKey {
     static let monitoring = "Monitoring Location"
 }
 
-enum FenceType: String {
+public enum FenceType: String {
     case uponEnter = "Upon Enter"
     case uponExit = "Upon Exit"
     case uponEnterAndExit = "Upon enter and exit"
 }
 
-class LocationFence: NSObject, NSCoding {
+open class LocationFence: NSObject, NSCoding {
     private var aware = AwareLocation.shared
     
     var radius: Double
@@ -47,11 +47,11 @@ class LocationFence: NSObject, NSCoding {
         return region
     }
     
-    override var description: String {
+    override open var description: String {
         return "\(identifier) : latitude : \(self.location.coordinate.latitude) , longitude : \(self.location.coordinate.latitude) "
     }
     
-    init(radius: Double, location: CLLocation, type: FenceType, identifier: String = NSUUID().uuidString, newFence: Bool = true, payload: [String: Any]?) {
+    public init(radius: Double, location: CLLocation, type: FenceType, identifier: String = NSUUID().uuidString, newFence: Bool = true, payload: [String: Any]?) {
         self.radius = radius
         self.location = location
         self.type = type
@@ -60,7 +60,7 @@ class LocationFence: NSObject, NSCoding {
         self.payload = payload
     }
     
-    func encode(with aCoder: NSCoder) {
+    public func encode(with aCoder: NSCoder) {
         let typeSt = type.rawValue
         aCoder.encode(self.radius, forKey: "radius")
         aCoder.encode(typeSt, forKey: "fenceType")
@@ -73,7 +73,7 @@ class LocationFence: NSObject, NSCoding {
         }
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
+    required convenience public init?(coder aDecoder: NSCoder) {
         guard let typeValue = aDecoder.decodeObject(forKey: "fenceType") as? String,
             let identifier = aDecoder.decodeObject(forKey: "identifier") as? String
             else {return nil}
@@ -106,7 +106,7 @@ class LocationFence: NSObject, NSCoding {
     
     //Fence monitoring
     
-    func startMonitoring(fence: LocationFence) {
+    public func startMonitoring(fence: LocationFence) {
         if !(CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self)) {
             print("Not available on this device")
             return
@@ -129,7 +129,7 @@ class LocationFence: NSObject, NSCoding {
         aware.startMonitoringFence(for: region)
     }
     
-    func stopMonitoring(fence: LocationFence) {
+    public func stopMonitoring(fence: LocationFence) {
         for region in aware.getMonitoredRegions() {
             guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == fence.identifier
                 else { continue }
@@ -137,7 +137,7 @@ class LocationFence: NSObject, NSCoding {
         }
     }
     
-    static func removeFence(withIdentifier identifier: String) -> Bool {
+    static public func removeFence(withIdentifier identifier: String) -> Bool {
         if var fences = UserDefaults.standard.geoFences {
             for index in 0 ..< fences.count where fences[index].identifier == identifier {
                 let fence = fences[index]
@@ -150,7 +150,7 @@ class LocationFence: NSObject, NSCoding {
         return false
     }
     
-    static func nearbyFences(inFences fences: [LocationFence], proximity: CLLocationDistance, fromLocation location: CLLocation) -> [LocationFence] {
+    static public func nearbyFences(inFences fences: [LocationFence], proximity: CLLocationDistance, fromLocation location: CLLocation) -> [LocationFence] {
         var i = 1.0
         var nearbyFences = [LocationFence]()
         if fences.count >= 19 {
@@ -172,14 +172,14 @@ class LocationFence: NSObject, NSCoding {
         return contains
     }
     
-    static func getFences() -> [LocationFence] {
+    static public func getFences() -> [LocationFence] {
         if let fences = UserDefaults.standard.geoFences {
             return fences
         }
         return [LocationFence]()
     }
     
-    static func updateMonitoredFences(userLocation: CLLocation) {
+    static public func updateMonitoredFences(userLocation: CLLocation) {
         if let fences = UserDefaults.standard.geoFences {
             if fences.count > 19 {
                 let nearbyFences = LocationFence.nearbyFences(inFences: fences, proximity: 50000, fromLocation: userLocation)

@@ -16,19 +16,19 @@ enum State: String {
     case off = "Off"
 }
 
-class HardwareContext: Context {
+open class HardwareContext: Context {
     
     internal var contextType: ContextType = .hardware
     
     //Getting Screen Brightness
-    var screenBrightness: Float {
+    public var screenBrightness: Float {
         get {
             return Float(UIScreen.main.brightness * 100)
         }
     }
     
     //Getting Battery level in percentage
-    var batteryLevel: Float? {
+    public var batteryLevel: Float? {
         get {
             let device = UIDevice.current
             device.isBatteryMonitoringEnabled = true
@@ -38,7 +38,7 @@ class HardwareContext: Context {
     }
     
     //Getting available disk space in percentage
-    var availableSpace: Float {
+    public var availableSpace: Float {
         get {
             do {
                 let systemAttributes = try FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory() as String)
@@ -53,7 +53,7 @@ class HardwareContext: Context {
     }
     
     //Getting PowerMode Status
-    var powerModeEnabled: Bool {
+    public var powerModeEnabled: Bool {
         get {
             if #available(iOS 9.0, *) {
                 return ProcessInfo.processInfo.isLowPowerModeEnabled
@@ -66,7 +66,7 @@ class HardwareContext: Context {
     
     //Getting Headphone status
     //Credits to Antonio E., this code is coming from this SO answer : http://stackoverflow.com/a/21382748/588967
-    var headphonetPluggedIn: Bool {
+    public var headphonetPluggedIn: Bool {
         get {
             let route = AVAudioSession.sharedInstance().currentRoute
             
@@ -79,7 +79,7 @@ class HardwareContext: Context {
     }
     
     //Getting connected Acessories list
-    var connectedAcessories: [String] {
+    public var connectedAcessories: [String] {
         get {
             var acessories: [String] = []
             

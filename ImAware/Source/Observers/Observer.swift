@@ -8,7 +8,7 @@
 import Foundation
 
 @available(iOS 10.0, *)
-struct Observer {
+public struct Observer {
     var hardware = HardwareObserver()
     var location = LocationObserver()
 }
