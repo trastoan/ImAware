@@ -8,7 +8,9 @@
 import Foundation
 
 public struct Snapshot {
-    var hardware = HardwareContext()
-    var location = LocationContext()
-    var activity = ActivityContext()
+    public var hardware = HardwareContext()
+    public var location = LocationContext()
+    public var activity = ActivityContext()
+    
+    public init() {}
 }

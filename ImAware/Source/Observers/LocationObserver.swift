@@ -14,8 +14,7 @@ open class LocationObserver: NSObject {
     //Manager that deals with the on and off of
     let aware = AwareLocation.shared
     
-    //Initialize CLLocation Manager and request user authorization to location
-    override init() {
+    override public init() {
         super.init()
     }
     

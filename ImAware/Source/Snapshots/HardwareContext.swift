@@ -18,6 +18,7 @@ enum State: String {
 
 open class HardwareContext: Context {
     
+    public init() {}
     internal var contextType: ContextType = .hardware
     
     //Getting Screen Brightness

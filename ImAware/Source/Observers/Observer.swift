@@ -9,6 +9,8 @@ import Foundation
 
 @available(iOS 10.0, *)
 public struct Observer {
-    var hardware = HardwareObserver()
-    var location = LocationObserver()
+    public var hardware = HardwareObserver()
+    public var location = LocationObserver()
+    
+    public init() {}
 }
