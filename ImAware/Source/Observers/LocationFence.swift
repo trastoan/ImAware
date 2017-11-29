@@ -28,6 +28,14 @@ public enum FenceType: String {
 open class LocationFence: NSObject, NSCoding, MKAnnotation {
     private var aware = AwareLocation.shared
     
+    public var title: String? {
+        return self.identifier
+    }
+    
+    public var subtitle: String? {
+        return "Radius \(radius)m - \(type.rawValue)"
+    }
+    
     public var radius: Double
     public var payload: [String: Any]?
     public var location: CLLocation
