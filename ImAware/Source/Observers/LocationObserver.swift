@@ -24,6 +24,10 @@ open class LocationObserver: NSObject {
         fence.startMonitoring(fence: fence)
     }
     
+    public func requestUserAuthorization() -> Bool {
+        return aware.checkAuthorization()
+    }
+    
     public func stopMonitoringFence(withIdentifier identifier: String) -> Bool {
         return LocationFence.removeFence(withIdentifier: identifier)
     }
