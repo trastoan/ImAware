@@ -27,19 +27,19 @@ public enum FenceType: String {
 open class LocationFence: NSObject, NSCoding {
     private var aware = AwareLocation.shared
     
-    var radius: Double
-    var payload: [String: Any]?
-    var location: CLLocation
-    var coordinate: CLLocationCoordinate2D {
+    public var radius: Double
+    public var payload: [String: Any]?
+    public var location: CLLocation
+    public var coordinate: CLLocationCoordinate2D {
         return location.coordinate
     }
     
     var newFence: Bool
     
-    var type: FenceType
-    var identifier: String
+    public var type: FenceType
+    public var identifier: String
     
-    var region: CLCircularRegion {
+    public var region: CLCircularRegion {
         let region = CLCircularRegion(center: coordinate, radius: radius, identifier: identifier)
         region.notifyOnEntry = (type == .uponEnter || type == .uponEnterAndExit)
         region.notifyOnExit = (type == .uponExit  || type == .uponEnterAndExit)
