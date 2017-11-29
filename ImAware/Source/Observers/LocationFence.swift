@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 protocol ObserverAction {
     func observerDidTrigger()
@@ -24,7 +25,7 @@ public enum FenceType: String {
     case uponEnterAndExit = "Upon enter and exit"
 }
 
-open class LocationFence: NSObject, NSCoding {
+open class LocationFence: NSObject, NSCoding, MKAnnotation {
     private var aware = AwareLocation.shared
     
     public var radius: Double
