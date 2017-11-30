@@ -32,12 +32,12 @@ open class LocationObserver: NSObject {
         return LocationFence.removeFence(withIdentifier: identifier)
     }
     
-    func pauseAllFenceMonitoration() {
-        
+    public func pauseAllFenceMonitoration() {
+        aware.pauseMonitoringFences()
     }
     
-    func restartAllFencesMonitoration() {
-        
+    public func restartAllFencesMonitoration() {
+        aware.restartMonitoringFences()
     }
     
     public func sendLocationDataToServer(withURL url: URL, HTTPMethod method: HTTPMethods, andHeaders headers: [String: String]?) {
