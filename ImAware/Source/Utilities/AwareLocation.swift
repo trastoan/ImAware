@@ -21,7 +21,7 @@ enum Frequency {
 
 open class AwareLocation: NSObject, CLLocationManagerDelegate {
     public static let locationManager = CLLocationManager()
-    static let shared = AwareLocation()
+    public static let shared = AwareLocation()
     
     private var frequency: Frequency?
     private var requestError: LocationError?
