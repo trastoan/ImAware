@@ -104,7 +104,7 @@ open class AwareLocation: NSObject, CLLocationManagerDelegate {
     func handleFence(forRegion region: CLRegion) {
         let identifier = region.identifier
         guard let fences = UserDefaults.standard.geoFences else { return }
-        let fenceIndex = fences.index { $0.identifier == identifier }
+        let fenceIndex = fences.firstIndex { $0.identifier == identifier }
         
         guard let index = fenceIndex else {return}
         if let fence = fences[index] as LocationFence? {

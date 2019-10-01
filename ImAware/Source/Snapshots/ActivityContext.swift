@@ -103,7 +103,7 @@ open class ActivityContext: NSObject, Context, ActivityLocation {
                     
                     let treshold = xyz.max()! * 2.0
                     
-                    let whichAxis = xyz.index(of: xyz.max() ?? 0)
+                    let whichAxis = xyz.firstIndex(of: xyz.max() ?? 0)
                     
                     //Walking or Running
                     var overTresholdCount = 0.0
