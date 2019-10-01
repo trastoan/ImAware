@@ -9,7 +9,6 @@
 import UIKit
 
 class ImAwareView: UIView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -17,10 +16,4 @@ class ImAwareView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    
-    
-    
 }
