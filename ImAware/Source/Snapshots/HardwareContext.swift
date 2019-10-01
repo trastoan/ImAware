@@ -71,7 +71,7 @@ open class HardwareContext: Context {
         get {
             let route = AVAudioSession.sharedInstance().currentRoute
             
-            for desc in route.outputs where desc.portType == AVAudioSessionPortHeadphones {
+            for desc in route.outputs where convertFromAVAudioSessionPort(desc.portType) == convertFromAVAudioSessionPort(AVAudioSession.Port.headphones) {
                 return true
             }
             
@@ -93,3 +93,8 @@ open class HardwareContext: Context {
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionPort(_ input: AVAudioSession.Port) -> String {
+	return input.rawValue
+}
